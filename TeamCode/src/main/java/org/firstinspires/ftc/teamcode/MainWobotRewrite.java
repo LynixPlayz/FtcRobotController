@@ -34,6 +34,7 @@ public class MainWobotRewrite extends LinearOpMode {
     private final int armShutdownThreshold = 5;
 
     private boolean debug = true;
+    private boolean debugPositions = true;
 
 
     @Override
@@ -58,16 +59,16 @@ public class MainWobotRewrite extends LinearOpMode {
             processJoystickInputToMovement();
             processGamepadHomePos();
             processMoveArmTriggers();
-            processGamepadScoringPos();
+                processGamepadScoringPos();
 
-            telemetryUpdate();
-        }
+                telemetryUpdate();
+            }
     }
 
     public void telemetryUpdate()
     {
         if (debug) {
-            telemetry.addData("Gamepad Inputs", getGamepadDebugInfo());
+            telemetry.addData("Gamepad Inputs", getGamepadDebugInfo() + "\n\n" + getMotorsDebugInfo());
             telemetry.update();
         }
     }
@@ -94,7 +95,22 @@ public class MainWobotRewrite extends LinearOpMode {
         returnString += "rightBumper " + gamepad2.right_bumper + "\n";
 
         returnString += "leftTrigger " + gamepad2.left_trigger + "\n";
-        returnString += "rightTrigger " + gamepad2.right_trigger;
+        returnString += "rightTrigger " + gamepad2.right_trigger + "";
+
+        return returnString;
+    }
+
+    public String getMotorsDebugInfo()
+    {
+        String returnString = "";
+
+        returnString += "leftArmMotor " + armLeft.getCurrentPosition() + "\n";
+        returnString += "rightArmMotor " + armRight.getCurrentPosition() + "\n";
+
+        returnString += "leftDriveFront " + frontLeft.getCurrentPosition() + "\n";
+        returnString += "rightDriveBack " + backLeft.getCurrentPosition() + "\n";
+        returnString += "leftDriveFront " + frontRight.getCurrentPosition() + "\n";
+        returnString += "rightDriveBack " + backRight.getCurrentPosition() + "";
 
         return returnString;
     }
