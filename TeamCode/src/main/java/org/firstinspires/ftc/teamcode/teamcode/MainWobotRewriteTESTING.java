@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="MianWobotRewrite", group="Iterative Opmode")
-public class MainWobotRewrite extends LinearOpMode {
+@TeleOp(name="MianWobotRewriteTeSTING ", group="Iterative Opmode")
+public class MainWobotRewriteTESTING extends LinearOpMode {
 
     public DcMotor frontLeft = null;
     public DcMotor backLeft = null;
@@ -52,18 +52,24 @@ public class MainWobotRewrite extends LinearOpMode {
         gripper = hardwareMap.get(Servo.class, "gripper");
         wrist = hardwareMap.get(Servo.class, "wrist");
 
+        armLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armLeft.setTargetPosition(armHomePosition);
+        armRight.setTargetPosition(armHomePosition);
+        armLeft.setPower(1.0);
+        armRight.setPower(1.0);
+        armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         waitForStart();
 
-        while(opModeIsActive())
-        {
-            processJoystickInputToMovement();
-            processGamepadHomePos();
-            processMoveArmTriggers();
-                processGamepadScoringPos();
-
-                telemetryUpdate();
-            }
-    }
+        while(opModeIsActive()) {
+            if(gamepad1.a) backLeft.setPower(5); else backLeft.setPower(0);
+            if(gamepad1.b) backRight.setPower(5); else backRight.setPower(0);
+            if(gamepad1.y) frontLeft.setPower(5); else frontLeft.setPower(0);
+            if(gamepad1.x) frontRight.setPower(5); else frontRight.setPower(0);
+        }
+        }
 
     public void telemetryUpdate()
     {
@@ -76,26 +82,26 @@ public class MainWobotRewrite extends LinearOpMode {
     public String getGamepadDebugInfo()
     {
         String returnString = "";
-        returnString += "dpad_up " + gamepad2.dpad_up + "\n";
-        returnString += "dpad_down " + gamepad2.dpad_down + "\n";
-        returnString += "dpad_left " + gamepad2.dpad_left + "\n";
-        returnString += "dpad_right " + gamepad2.dpad_right + "\n";
+        returnString += "dpad_up " + gamepad1.dpad_up + "\n";
+        returnString += "dpad_down " + gamepad1.dpad_down + "\n";
+        returnString += "dpad_left " + gamepad1.dpad_left + "\n";
+        returnString += "dpad_right " + gamepad1.dpad_right + "\n";
 
-        returnString += "a " + gamepad2.a + "\n";
-        returnString += "b " + gamepad2.b + "\n";
-        returnString += "x " + gamepad2.x + "\n";
-        returnString += "y " + gamepad2.y + "\n";
+        returnString += "a " + gamepad1.a + "\n";
+        returnString += "b " + gamepad1.b + "\n";
+        returnString += "x " + gamepad1.x + "\n";
+        returnString += "y " + gamepad1.y + "\n";
 
-        returnString += "gamepadXRight " + gamepad2.right_stick_x + "\n";
-        returnString += "gamepadYRight " + gamepad2.right_stick_y + "\n";
-        returnString += "gamepadXLeft " + gamepad2.left_stick_x + "\n";
-        returnString += "gamepadYLeft " + gamepad2.left_stick_y + "\n";
+        returnString += "gamepadXRight " + gamepad1.right_stick_x + "\n";
+        returnString += "gamepadYRight " + gamepad1.right_stick_y + "\n";
+        returnString += "gamepadXLeft " + gamepad1.left_stick_x + "\n";
+        returnString += "gamepadYLeft " + gamepad1.left_stick_y + "\n";
 
-        returnString += "leftBumper " + gamepad2.left_bumper + "\n";
-        returnString += "rightBumper " + gamepad2.right_bumper + "\n";
+        returnString += "leftBumper " + gamepad1.left_bumper + "\n";
+        returnString += "rightBumper " + gamepad1.right_bumper + "\n";
 
-        returnString += "leftTrigger " + gamepad2.left_trigger + "\n";
-        returnString += "rightTrigger " + gamepad2.right_trigger + "";
+        returnString += "leftTrigger " + gamepad1.left_trigger + "\n";
+        returnString += "rightTrigger " + gamepad1.right_trigger + "";
 
         return returnString;
     }
@@ -117,10 +123,10 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void processJoystickInputToMovement()
     {
-        double y = -gamepad2.left_stick_y;
-        double x = gamepad2.left_stick_x;
+        double y = -gamepad1.left_stick_y;
+        double x = gamepad1.left_stick_x;
 
-        double turn = gamepad2.right_stick_x;
+        double turn = gamepad1.right_stick_x;
 
         //math stuff I dont understand :P
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(turn), 1);
@@ -134,7 +140,7 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void processGamepadHomePos()
     {
-        if(gamepad2.x)
+        if(gamepad1.x)
         {
             armLeft.setTargetPosition(armHomePosition);
             armRight.setTargetPosition(armHomePosition);
@@ -149,7 +155,7 @@ public class MainWobotRewrite extends LinearOpMode {
     public void processMoveArmTriggers()
     {
         double manualArmPower;
-        manualArmPower = gamepad2.right_trigger - gamepad2.left_trigger;
+        manualArmPower = gamepad1.right_trigger - gamepad1.left_trigger;
         if (Math.abs(manualArmPower) > armManualDeadband) {
             if (!manualMode) {
                 armLeft.setPower(0.0);
@@ -165,7 +171,7 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void processGamepadScoringPos()
     {
-        if (gamepad2.y) {
+        if (gamepad1.y) {
             armLeft.setTargetPosition(armScorePosition);
             armRight.setTargetPosition(armScorePosition);
             armLeft.setPower(1.0);
@@ -178,7 +184,7 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void processGamepadGripperMovement()
     {
-        if (gamepad2.left_bumper || gamepad2.right_bumper) {
+        if (gamepad1.left_bumper || gamepad1.right_bumper) {
             gripper.setPosition(gripperOpenPosition);
         }
         else {
