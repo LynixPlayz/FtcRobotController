@@ -26,11 +26,11 @@ public class MainWobotRewrite extends LinearOpMode {
     private final double gripperClosedPosition = 1.0;
     private final double gripperOpenPosition = 0;
     private final double wristUpPosition = 1.0;
-    private final double wristDownPosition = 0.0;
+    private final double wristDownPosition = -1.0;
 
-    private final int armHomePosition = 0;
-    private final int armIntakePosition = 10;
-    private final int armScorePosition = 400;
+    private final int armHomePosition = 20;
+    private final int armIntakePosition = 30;
+    private final int armScorePosition = -600;
     private final int armShutdownThreshold = 5;
 
     private boolean debug = true;
@@ -81,6 +81,8 @@ public class MainWobotRewrite extends LinearOpMode {
             processGamepadHomePos();
             processGamepadGripperMovement();
             wristDpadMovement();
+            lockArmProcessGamepad();
+
                 processGamepadScoringPos();
 
                 telemetryUpdate();
@@ -132,25 +134,46 @@ public class MainWobotRewrite extends LinearOpMode {
         returnString += "leftDriveFront " + frontLeft.getCurrentPosition() + "\n";
         returnString += "rightDriveBack " + backLeft.getCurrentPosition() + "\n";
         returnString += "leftDriveFront " + frontRight.getCurrentPosition() + "\n";
-        returnString += "rightDriveBack " + backRight.getCurrentPosition() + "";
+        returnString += "rightDriveBack " + backRight.getCurrentPosition() + "\n";
+        returnString += "leftDriveFront " + frontRight.getCurrentPosition() + "\n";
+        returnString += "leftArmTarget " + armLeft.getTargetPosition() + "\n";
+        returnString += "rightArmTarget " + armRight.getTargetPosition() + "\n";
+        returnString += "wrist " + wrist.getPosition() + "";
+
 
         return returnString;
     }
 
     public void processJoystickInputToMovement()
     {
-        double turn = -gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
+        /*double y = -gamepad2.left_stick_y;
+        double x = gamepad2.left_stick_x;
 
-        double y = gamepad1.right_stick_x;
+        double turn = gamepad2.right_stick_x;
 
         //math stuff I dont understand :P
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(turn), 1);
 
-        frontLeft.setPower( (y + x + turn) / denominator);
-        backLeft.setPower( (y - x + turn) / denominator);
-        frontRight.setPower( (y - x - turn) / denominator);
-        backRight.setPower( ( y + x - turn) / denominator);
+        frontLeft.setPower( ((y + x + turn) / denominator) / 2.6 );
+        backLeft.setPower( ((y - x + turn) / denominator ) / 1.626);
+        frontRight.setPower( ((y - x - turn) / denominator) / 2.52);
+        backRight.setPower( (( y + x - turn) / denominator) / 2.594);*/
+        // Forwards and Back on Left Stick using the Y-axis
+        fronvbgfhc tnjkrmtLeft.setPower(-gamepad1.left_stick_y);
+        backLeft.setPower(-gamepad1.left_stick_y);
+        frontRight.setPower(gamepad1.left_stick_y);
+        backRight.setPower(gamepad1.left_stick_y);
+        // Strafing on Right Stick using the X-axis
+        // Move the stick right and left for the robot to slide right and left
+        frontLeft.setPower(gamepad1.right_stick_x);
+        backLeft.setPower(-gamepad1.right_stick_x);
+        frontRight.setPower(gamepad1.right_stick_x);
+        backRight.setPower(-gamepad1.right_stick_x);
+        // Turning on Left Joystick using X-Axis
+        frontLeft.setPower(gamepad1.left_stick_x);
+        backLeft.setPower(gamepad1.left_stick_x);
+        frontRight.setPower(gamepad1.left_stick_x);
+        backRight.setPower(gamepad1.left_stick_x);
 
     }
 
@@ -185,16 +208,27 @@ public class MainWobotRewrite extends LinearOpMode {
         }
     }
 
+    public void lockArmProcessGamepad()
+    {
+        if(gamepad1.a)
+        {
+            armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            armLeft.setPower(0);
+            armRight.setPower(0);
+        }
+    }
+
     public void processGamepadScoringPos()
     {
         if (gamepad1.y) {
             armLeft.setTargetPosition(armScorePosition);
             armRight.setTargetPosition(armScorePosition);
-            armLeft.setPower(1.0);
-            armRight.setPower(1.0);
+            armLeft.setPower(0.5);
+            armRight.setPower(0.5);
             armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            wrist.setPosition(wristUpPosition);
+            wrist.setPosition(wristDownPosition);
         }
     }
 
