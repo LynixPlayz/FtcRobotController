@@ -146,6 +146,10 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void processJoystickInputToMovement()
     {
+        double frontLeftCalibration = 1.14;
+        double backLeftCalibration = 1.21;
+        double frontRightCalibration = 1.09;
+        double backRightCalibration = 1.15;
         /*double y = -gamepad2.left_stick_y;
         double x = gamepad2.left_stick_x;
 
@@ -158,11 +162,7 @@ public class MainWobotRewrite extends LinearOpMode {
         backLeft.setPower( ((y - x + turn) / denominator ) / 1.626);
         frontRight.setPower( ((y - x - turn) / denominator) / 2.52);
         backRight.setPower( (( y + x - turn) / denominator) / 2.594);*/
-        // Forwards and Back on Left Stick using the Y-axis
-        fronvbgfhc tnjkrmtLeft.setPower(-gamepad1.left_stick_y);
-        backLeft.setPower(-gamepad1.left_stick_y);
-        frontRight.setPower(gamepad1.left_stick_y);
-        backRight.setPower(gamepad1.left_stick_y);
+
         // Strafing on Right Stick using the X-axis
         // Move the stick right and left for the robot to slide right and left
         frontLeft.setPower(gamepad1.right_stick_x);
@@ -174,6 +174,11 @@ public class MainWobotRewrite extends LinearOpMode {
         backLeft.setPower(gamepad1.left_stick_x);
         frontRight.setPower(gamepad1.left_stick_x);
         backRight.setPower(gamepad1.left_stick_x);
+        // Forwards and Back on Left Stick using the Y-axis
+        frontLeft.setPower(-gamepad1.left_stick_y);
+        backLeft.setPower(-gamepad1.left_stick_y);
+        frontRight.setPower(gamepad1.left_stick_y);
+        backRight.setPower(gamepad1.left_stick_y);
 
     }
 

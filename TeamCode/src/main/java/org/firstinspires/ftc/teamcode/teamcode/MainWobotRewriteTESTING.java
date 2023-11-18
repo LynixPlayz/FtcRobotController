@@ -75,9 +75,12 @@ public class MainWobotRewriteTESTING extends LinearOpMode {
                 backLeft.setPower(5.0);
                 Thread.sleep(500);
                 timeElapsed = 0.5D;
-                backLeft.setPower(0);
                 endingPos = backLeft.getCurrentPosition();
                 movePerSecond = (endingPos - startingPos) / timeElapsed;
+            }
+            else
+            {
+                backLeft.setPower(0);
             }
             if (gamepad1.b) {
                 startingPos = frontLeft.getCurrentPosition();
@@ -108,7 +111,7 @@ public class MainWobotRewriteTESTING extends LinearOpMode {
             }
 
 
-            telemetry.addData("movePerSecond", motorName + ": " + roundDecimal(movePerSecond / 1000, 2));
+            telemetry.addData("movePerSecond", motorName + ": " + roundDecimal(movePerSecond / 2200, 2));
             telemetry.update();
         }
     }
