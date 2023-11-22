@@ -5,12 +5,15 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Movement extends Part {
     public DcMotorEx frontLeft = null;
     public DcMotorEx backLeft = null;
     public DcMotorEx frontRight = null;
     public DcMotorEx backRight = null;
+    public HardwareMap hardwareMap;
 
     public String debugInfo = "";
 
@@ -44,7 +47,7 @@ public class Movement extends Part {
         return returnString;
     }
 
-    public void processJoystickInputToMovement()
+    public void processJoystickInputToMovement(Gamepad gamepad1)
     {
         double y = -gamepad1.left_stick_x; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_y * 1.1; // Counteract imperfect strafing

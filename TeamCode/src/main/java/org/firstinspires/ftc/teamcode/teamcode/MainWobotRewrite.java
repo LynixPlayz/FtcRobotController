@@ -17,6 +17,11 @@ public class MainWobotRewrite extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        movement.hardwareMap = hardwareMap;
+        arm.hardwareMap = hardwareMap;
+        gripper.hardwareMap = hardwareMap;
+        wrist.hardwareMap = hardwareMap;
+
         movement.init();
         gripper.init();
         arm.init();
@@ -28,10 +33,10 @@ public class MainWobotRewrite extends LinearOpMode {
         {
             movement.loop();
             wrist.loop();
-            movement.processJoystickInputToMovement();
-            arm.armTriggersGamepad();
-            gripper.gripperMovementGamepad();
-            wrist.gamepadMovement();
+            movement.processJoystickInputToMovement(gamepad1);
+            arm.armTriggersGamepad(gamepad1);
+            gripper.gripperMovementGamepad(gamepad1);
+            wrist.gamepadMovement(gamepad1);
             processGamepadHomePos();
             lockArmProcessGamepad();
             processGamepadScoringPos();
@@ -87,7 +92,7 @@ public class MainWobotRewrite extends LinearOpMode {
         if(gamepad1.x)
         {
             arm.moveToHomePos();
-            wrist.SELF.setPosition(wrist.wristUpPosition);
+            //wrist.SELF.setPosition(wrist.wristUpPosition);
         }
     }
 
@@ -103,7 +108,7 @@ public class MainWobotRewrite extends LinearOpMode {
     {
         if (gamepad1.y) {
             arm.scoringPosition();
-            wrist.SELF.setPosition(wrist.wristDownPosition);
+            //wrist.SELF.setPosition(wrist.wristDownPosition);
         }
     }
 }

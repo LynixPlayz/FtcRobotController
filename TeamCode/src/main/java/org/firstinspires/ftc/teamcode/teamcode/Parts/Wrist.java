@@ -3,18 +3,21 @@ package org.firstinspires.ftc.teamcode.teamcode.Parts;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wrist extends Part{
-    public Servo SELF = null;
+    //public Servo SELF = null;
     public String debugString = "";
 
     public final double wristUpPosition = 1.0;
     public final double wristDownPosition = -1.0;
+    public HardwareMap hardwareMap;
 
     @Override
     public void init() {
-        SELF = hardwareMap.get(Servo.class, "wrist");
+        //SELF = hardwareMap.get(Servo.class, "wrist");
     }
 
     @Override
@@ -25,17 +28,19 @@ public class Wrist extends Part{
     public String getDebugString()
     {
         String returnString = "";
-        returnString += "wrist " + SELF.getPosition() + "";
+        returnString += "wrist " +
+        //SELF.getPosition()+
+        "";
         return returnString;
     }
 
-    public void gamepadMovement()
+    public void gamepadMovement(Gamepad gamepad1)
     {
         if(gamepad1.dpad_up)
         {
-            SELF.setPosition(wristUpPosition);
+            //SELF.setPosition(wristUpPosition);
         } else if (gamepad1.dpad_down) {
-            SELF.setPosition(wristDownPosition);
+            //SELF.setPosition(wristDownPosition);
         }
     }
 }

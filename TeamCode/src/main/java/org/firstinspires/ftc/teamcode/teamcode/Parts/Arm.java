@@ -4,6 +4,8 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gam
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Arm extends Part {
     private final int armHomePosition = 20;
@@ -11,10 +13,13 @@ public class Arm extends Part {
     public String debugString = "";
     private boolean manualMode = false;
     public DcMotorEx arm = null;
+    public HardwareMap hardwareMap;
 
     @Override
     public void init()
     {
+        arm = hardwareMap.get(DcMotorEx.class, "arm");
+
         arm.setDirection(DcMotorEx.Direction.REVERSE);
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -48,9 +53,10 @@ public class Arm extends Part {
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
-    public void armTriggersGamepad()
+    public void armTriggersGamepad(Gamepad gamepad1)
     {
         double manualArmPower;
+        double speed = 1;
         manualArmPower = gamepad1.right_trigger - gamepad1.left_trigger;
         double armManualDeadband = 0.03;
         if (Math.abs(manualArmPower) > armManualDeadband) {
@@ -62,7 +68,7 @@ public class Arm extends Part {
                 manualMode = true;
             }
             //armLeft.setPower(manualArmPower);
-            arm.setPower(manualArmPower);
+            arm.setPower(manualArmPower * (speed / 100));
         }
     }
 
