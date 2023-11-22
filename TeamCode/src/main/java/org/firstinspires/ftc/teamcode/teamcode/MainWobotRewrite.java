@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -202,6 +203,8 @@ public class MainWobotRewrite extends LinearOpMode {
             arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             //armLeft.setPower(0);
             arm.setPower(0);
+            arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 
