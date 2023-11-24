@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Arm;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Gripper;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Movement;
@@ -31,7 +33,7 @@ public class MainWobotRewrite extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            movement.loop();
+            movement.loop(gamepad1);
             wrist.loop();
             movement.processJoystickInputToMovement(gamepad1);
             arm.armTriggersGamepad(gamepad1);
@@ -100,7 +102,8 @@ public class MainWobotRewrite extends LinearOpMode {
     {
         if(gamepad1.a)
         {
-            arm.lockArm();
+            //arm.lockArm();
+            movement.move(MoveDirection.FORWARD, 10, 1);
         }
     }
 

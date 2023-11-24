@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.teamcode.Parts;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 
 public class Movement extends Part {
     public DcMotorEx frontLeft = null;
@@ -14,6 +14,10 @@ public class Movement extends Part {
     public DcMotorEx frontRight = null;
     public DcMotorEx backRight = null;
     public HardwareMap hardwareMap;
+
+    static double COUNTS_PER_MOTOR_REV = 2200;
+    static final double DRIVE_GEAR_REDUCTION = 20.0;
+    static final double WHEEL_DIAMETER_INCHES = 75 / 25.4;
 
     public String debugInfo = "";
 
@@ -31,8 +35,9 @@ public class Movement extends Part {
     }
 
     @Override
-    public void loop()
+    public void loop(Gamepad gamepad1)
     {
+        debugDpad(gamepad1);
         debugInfo = getDebugInfo();
     }
 
@@ -44,6 +49,7 @@ public class Movement extends Part {
         returnString += "leftDriveFront " + frontRight.getCurrentPosition() + "\n";
         returnString += "rightDriveBack " + backRight.getCurrentPosition() + "\n";
         returnString += "leftDriveFront " + frontRight.getCurrentPosition() + "\n";
+        returnString += "motor power " + COUNTS_PER_MOTOR_REV;
         return returnString;
     }
 
@@ -74,4 +80,38 @@ public class Movement extends Part {
 
     }
 
+    public void move(MoveDirection direction, int inches, double speed)
+    {
+        double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+                (WHEEL_DIAMETER_INCHES * 3.1415);
+        if(direction == MoveDirection.FORWARD)
+        {
+            frontLeft.setTargetPosition((int) ((inches * COUNTS_PER_INCH) / 4) * -1);
+            frontRight.setTargetPosition((int) ((inches * COUNTS_PER_INCH) / 4));
+            backLeft.setTargetPosition((int) ((inches * COUNTS_PER_INCH) / 4));
+            backRight.setTargetPosition((int) ((inches * COUNTS_PER_INCH) / 4) * -1);
+
+            frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            frontLeft.setPower(speed);
+            frontRight.setPower(speed);
+            backLeft.setPower(speed);
+            backRight.setPower(speed);
+        }
+    }
+
+    public void debugDpad(Gamepad gamepad1)
+    {
+        if(gamepad1.dpad_left)
+        {
+            COUNTS_PER_MOTOR_REV -= 10;
+        }
+        if(gamepad1.dpad_right)
+        {
+            COUNTS_PER_MOTOR_REV += 10;
+        }
+    }
 }

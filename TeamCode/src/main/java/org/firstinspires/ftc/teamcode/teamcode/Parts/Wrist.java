@@ -21,7 +21,7 @@ public class Wrist extends Part{
     }
 
     @Override
-    public void loop() {
+    public void loop(Gamepad gamepad1) {
         debugString = getDebugString();
     }
 

@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.teamcode.Parts;
 
-public class Part {
+import com.qualcomm.robotcore.hardware.Gamepad;
+
+public abstract class Part {
     public void init(){}
     public void loop(){}
+
+    public abstract void loop(Gamepad gamepad1);
 }

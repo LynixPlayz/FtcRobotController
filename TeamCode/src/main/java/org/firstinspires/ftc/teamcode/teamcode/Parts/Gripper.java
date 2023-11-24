@@ -16,6 +16,11 @@ public class Gripper extends Part{
         gripper = hardwareMap.get(Servo.class, "gripper");
     }
 
+    @Override
+    public void loop(Gamepad gamepad1) {
+
+    }
+
     public void gripperMovementGamepad(Gamepad gamepad1)
     {
         if (gamepad1.left_bumper || gamepad1.right_bumper) {
