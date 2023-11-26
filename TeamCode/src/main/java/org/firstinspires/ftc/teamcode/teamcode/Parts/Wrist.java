@@ -8,16 +8,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wrist extends Part{
-    //public Servo SELF = null;
+    public Servo SELF = null;
     public String debugString = "";
 
     public final double wristUpPosition = 1.0;
-    public final double wristDownPosition = -1.0;
+    public final double wristDownPosition = 0.3;
     public HardwareMap hardwareMap;
 
     @Override
     public void init() {
-        //SELF = hardwareMap.get(Servo.class, "wrist");
+        SELF = hardwareMap.get(Servo.class, "wrist");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Wrist extends Part{
     {
         String returnString = "";
         returnString += "wrist " +
-        //SELF.getPosition()+
+        SELF.getPosition()+
         "";
         return returnString;
     }
@@ -38,9 +38,9 @@ public class Wrist extends Part{
     {
         if(gamepad1.dpad_up)
         {
-            //SELF.setPosition(wristUpPosition);
+            SELF.setPosition(wristUpPosition);
         } else if (gamepad1.dpad_down) {
-            //SELF.setPosition(wristDownPosition);
+            SELF.setPosition(wristDownPosition);
         }
     }
 }

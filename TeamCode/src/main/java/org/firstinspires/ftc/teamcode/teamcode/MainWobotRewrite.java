@@ -16,6 +16,8 @@ public class MainWobotRewrite extends LinearOpMode {
     Gripper gripper = new Gripper();
     Wrist wrist = new Wrist();
 
+    int testRunCount = 0;
+
 
     @Override
     public void runOpMode() {
@@ -84,7 +86,8 @@ public class MainWobotRewrite extends LinearOpMode {
         String returnString = "";
 
         returnString += movement.debugInfo;
-        returnString += arm.debugString;
+        returnString += "\n";
+        returnString += arm.getDebugString();
 
         return returnString;
     }
@@ -94,16 +97,17 @@ public class MainWobotRewrite extends LinearOpMode {
         if(gamepad1.x)
         {
             arm.moveToHomePos();
-            //wrist.SELF.setPosition(wrist.wristUpPosition);
+            wrist.SELF.setPosition(wrist.wristUpPosition);
         }
     }
 
     public void lockArmProcessGamepad()
     {
-        if(gamepad1.a)
+        if(gamepad1.a && !arm.arm.isBusy())
         {
-            //arm.lockArm();
-            movement.move(MoveDirection.FORWARD, 10, 1);
+            arm.lockArm();
+            testRunCount++;
+            //movement.move(MoveDirection.FORWARD, 10, 1);
         }
     }
 
@@ -111,7 +115,7 @@ public class MainWobotRewrite extends LinearOpMode {
     {
         if (gamepad1.y) {
             arm.scoringPosition();
-            //wrist.SELF.setPosition(wrist.wristDownPosition);
+            wrist.SELF.setPosition(wrist.wristDownPosition);
         }
     }
 }

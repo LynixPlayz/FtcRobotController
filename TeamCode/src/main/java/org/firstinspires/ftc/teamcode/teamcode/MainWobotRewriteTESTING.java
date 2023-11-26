@@ -47,18 +47,18 @@ public class MainWobotRewriteTESTING extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "rightDriveBack");
 
 
-        armLeft = hardwareMap.get(DcMotor.class, "armLeft");
-        armRight = hardwareMap.get(DcMotor.class, "armRight");
+        //armLeft = hardwareMap.get(DcMotor.class, "armLeft");
+        armRight = hardwareMap.get(DcMotor.class, "arm");
         gripper = hardwareMap.get(Servo.class, "gripper");
         wrist = hardwareMap.get(Servo.class, "wrist");
 
-        armLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //armLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armLeft.setTargetPosition(armHomePosition);
+        //armLeft.setTargetPosition(armHomePosition);
         armRight.setTargetPosition(armHomePosition);
-        armLeft.setPower(1.0);
+        //armLeft.setPower(1.0);
         armRight.setPower(1.0);
-        armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
@@ -100,7 +100,7 @@ public class MainWobotRewriteTESTING extends LinearOpMode {
                 endingPos = frontRight.getCurrentPosition();
                 movePerSecond = (endingPos - startingPos) / timeElapsed;
             }
-            if (gamepad1.y) {
+            /*if (gamepad1.y) {
                 startingPos = backRight.getCurrentPosition();
                 backRight.setPower(5.0);
                 Thread.sleep(500);
@@ -108,10 +108,20 @@ public class MainWobotRewriteTESTING extends LinearOpMode {
                 backRight.setPower(0);
                 endingPos = backRight.getCurrentPosition();
                 movePerSecond = (endingPos - startingPos) / timeElapsed;
+            }*/
+            if (gamepad1.y) {
+                startingPos = armRight.getCurrentPosition();
+                armRight.setPower(5.0);
+                Thread.sleep(500);
+                timeElapsed = 0.5D;
+                armRight.setPower(0);
+                endingPos = armRight.getCurrentPosition();
+                movePerSecond = (endingPos - startingPos) / timeElapsed;
             }
 
 
             telemetry.addData("movePerSecond", motorName + ": " + roundDecimal(movePerSecond / 2200, 2));
+            telemetry.addData("motor", armRight.getPower());
             telemetry.update();
         }
     }

@@ -26,9 +26,6 @@ public class Arm extends Part {
         arm.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         arm.setPower(0.0);
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setTargetPosition(armHomePosition);
-        arm.setVelocity(1000);
-        arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     @Override
@@ -42,6 +39,7 @@ public class Arm extends Part {
 
         returnString += "rightArmTarget " + arm.getTargetPosition() + "\n";
         returnString += "rightArmMotor " + arm.getCurrentPosition() + "\n";
+        returnString += "rightArmPower " + arm.getPower() + "\n";
 
         return returnString;
     }
@@ -49,16 +47,15 @@ public class Arm extends Part {
     public void moveToHomePos()
     {
         arm.setTargetPosition(armHomePosition);
-        arm.setVelocity(1000);
+        arm.setPower(0.5);
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     public void armTriggersGamepad(Gamepad gamepad1)
     {
         double manualArmPower;
-        double speed = 1;
         manualArmPower = gamepad1.right_trigger - gamepad1.left_trigger;
-        double armManualDeadband = 0.03;
+        double armManualDeadband = 0.05;
         if (Math.abs(manualArmPower) > armManualDeadband) {
             if (!manualMode) {
                 //armLeft.setPower(0.0);
@@ -68,7 +65,8 @@ public class Arm extends Part {
                 manualMode = true;
             }
             //armLeft.setPower(manualArmPower);
-            arm.setPower(manualArmPower * (speed / 100));
+            arm.setPower(manualArmPower);
+            arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         }
     }
 
@@ -87,7 +85,7 @@ public class Arm extends Part {
         int armScorePosition = -600;
 
         arm.setTargetPosition(armScorePosition);
-        arm.setVelocity(600);
+        arm.setPower(0.5);
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
