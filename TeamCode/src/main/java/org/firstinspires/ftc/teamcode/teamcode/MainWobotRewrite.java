@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.teamcode.Autonomous.AutoPIDForward;
 import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Arm;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Gripper;
@@ -15,12 +17,19 @@ public class MainWobotRewrite extends LinearOpMode {
     Arm arm = new Arm();
     Gripper gripper = new Gripper();
     Wrist wrist = new Wrist();
+    AutoPIDForward apf = new AutoPIDForward();
 
     int testRunCount = 0;
 
+    public static MainWobotRewrite SELF;
+
+    public static MainWobotRewrite getInstance(){
+        return SELF;
+    }
 
     @Override
     public void runOpMode() {
+        SELF = this;
         movement.hardwareMap = hardwareMap;
         arm.hardwareMap = hardwareMap;
         gripper.hardwareMap = hardwareMap;
@@ -78,6 +87,9 @@ public class MainWobotRewrite extends LinearOpMode {
         returnString += "leftTrigger " + gamepad1.left_trigger + "\n";
         returnString += "rightTrigger " + gamepad1.right_trigger + "";
 
+        returnString += "testRunCount " + testRunCount + "\n";
+        returnString += "movement busy " + movement.isBusy() + "\n";
+
         return returnString;
     }
 
@@ -89,7 +101,7 @@ public class MainWobotRewrite extends LinearOpMode {
         returnString += "\n";
         returnString += arm.getDebugString();
 
-        return returnString;
+       return returnString;
     }
 
     public void processGamepadHomePos()
@@ -103,11 +115,11 @@ public class MainWobotRewrite extends LinearOpMode {
 
     public void lockArmProcessGamepad()
     {
-        if(gamepad1.a && !arm.arm.isBusy())
+        if(gamepad1.a)
         {
-            arm.lockArm();
+            //arm.lockArm();
             testRunCount++;
-            //movement.move(MoveDirection.FORWARD, 10, 1);
+            movement.driveStraight(1, 10, 90);
         }
     }
 

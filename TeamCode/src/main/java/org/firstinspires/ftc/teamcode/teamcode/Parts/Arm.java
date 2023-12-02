@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teamcode.Parts;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +16,11 @@ public class Arm extends Part {
     private boolean manualMode = false;
     public DcMotorEx arm = null;
     public HardwareMap hardwareMap;
+
+    //SET DURING RUNTIME
+    double armLastTickPower = 0;
+    double armLastTickPosition = 0;
+    boolean isBraking;
 
     @Override
     public void init()
@@ -41,6 +47,7 @@ public class Arm extends Part {
         returnString += "rightArmTarget " + arm.getTargetPosition() + "\n";
         returnString += "rightArmMotor " + arm.getCurrentPosition() + "\n";
         returnString += "rightArmPower " + arm.getPower() + "\n";
+        returnString += ("test " + ((armLastTickPosition - arm.getCurrentPosition()) / Math.abs(armLastTickPosition - arm.getCurrentPosition())));
 
         return returnString;
     }
@@ -58,17 +65,37 @@ public class Arm extends Part {
         manualArmPower = gamepad1.right_trigger - gamepad1.left_trigger;
         double armManualDeadband = 0.05;
         if (Math.abs(manualArmPower) > armManualDeadband) {
+            isBraking = false;
             if (!manualMode) {
-                //armLeft.setPower(0.0);
-                arm.setPower(0.0);
                 //armLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 arm.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 manualMode = true;
             }
             //armLeft.setPower(manualArmPower);
-            arm.setPower(manualArmPower);
+            arm.setPower(manualArmPower * 0.4);
             arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         }
+        if(!isBraking)
+        {
+            arm.setPower(0.0);
+        }
+
+        if (arm.getPower() == 0 && armLastTickPower == 0 && armLastTickPosition != arm.getCurrentPosition() || isBraking) {
+            if(armLastTickPosition - arm.getCurrentPosition() > 0) {
+                arm.setPower(0.15);
+            }
+            else if(armLastTickPosition - arm.getCurrentPosition() < 0)
+            {
+                arm.setPower(-0.15);
+            }
+
+                isBraking = true;
+        }
+        else {
+            isBraking = false;
+        }
+        armLastTickPosition = arm.getCurrentPosition();
+        armLastTickPower = arm.getPower();
     }
 
     public void lockArm()
