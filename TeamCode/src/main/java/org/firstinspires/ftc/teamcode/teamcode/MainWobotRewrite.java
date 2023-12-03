@@ -27,6 +27,7 @@ public class MainWobotRewrite extends LinearOpMode {
         return SELF;
     }
 
+    //Starting point for the robot
     @Override
     public void runOpMode() {
         SELF = this;
@@ -38,6 +39,7 @@ public class MainWobotRewrite extends LinearOpMode {
         movement.init();
         gripper.init();
         arm.init();
+        wrist.init();
 
 
         waitForStart();

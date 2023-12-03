@@ -12,7 +12,7 @@ public class Wrist extends Part{
     public String debugString = "";
 
     public final double wristUpPosition = 1.0;
-    public final double wristDownPosition = 0.3;
+    public final double wristDownPosition = 0;
     public HardwareMap hardwareMap;
 
     @Override
@@ -22,6 +22,7 @@ public class Wrist extends Part{
 
     @Override
     public void loop(Gamepad gamepad1) {
+        wristLimits();
         debugString = getDebugString();
     }
 
@@ -41,6 +42,18 @@ public class Wrist extends Part{
             SELF.setPosition(wristUpPosition);
         } else if (gamepad1.dpad_down) {
             SELF.setPosition(wristDownPosition);
+        }
+    }
+
+    public void wristLimits()
+    {
+        if(SELF.getPosition() < wristDownPosition)
+        {
+            SELF.setPosition(wristDownPosition);
+        }
+        if(SELF.getPosition() > wristUpPosition)
+        {
+            SELF.setPosition(wristUpPosition);
         }
     }
 }

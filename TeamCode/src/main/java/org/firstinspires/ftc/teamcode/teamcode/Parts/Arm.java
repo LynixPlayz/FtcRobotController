@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
+
 public class Arm extends Part {
     private final int armHomePosition = 20;
 
@@ -61,42 +63,39 @@ public class Arm extends Part {
 
     public void armTriggersGamepad(Gamepad gamepad1)
     {
+        boolean ignoreBraking = false;
         double manualArmPower;
         manualArmPower = gamepad1.right_trigger - gamepad1.left_trigger;
-        double armManualDeadband = 0.05;
+        double armManualDeadband = 0.15;
         if (Math.abs(manualArmPower) > armManualDeadband) {
-            isBraking = false;
             if (!manualMode) {
                 //armLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 arm.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 manualMode = true;
             }
             //armLeft.setPower(manualArmPower);
-            arm.setPower(manualArmPower * 0.4);
+            arm.setPower(manualArmPower * 0.6);
             arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         }
-        if(!isBraking)
-        {
-            arm.setPower(0.0);
-        }
-
-        if (arm.getPower() == 0 && armLastTickPower == 0 && armLastTickPosition != arm.getCurrentPosition() || isBraking) {
-            if(armLastTickPosition - arm.getCurrentPosition() > 0) {
-                arm.setPower(0.15);
-            }
-            else if(armLastTickPosition - arm.getCurrentPosition() < 0)
-            {
-                arm.setPower(-0.15);
-            }
-
-                isBraking = true;
-        }
-        else {
-            isBraking = false;
-        }
+        if(Math.abs(manualArmPower) != 0) {ignoreBraking = true;}
         armLastTickPosition = arm.getCurrentPosition();
         armLastTickPower = arm.getPower();
+        double armPositionChange = arm.getCurrentPosition() - armLastTickPosition;
+        MoveDirection fallDirection = MoveDirection.LEFT;
+        if(armLastTickPosition != arm.getCurrentPosition())
+        {
+            if(armPositionChange > 0){
+                fallDirection = MoveDirection.FORWARD;
+            } else if (armPositionChange < 0) {
+                fallDirection = MoveDirection.BACK;
+            }
+        }
+        if(fallDirection != MoveDirection.LEFT && !ignoreBraking)
+        {
+            arm.setPower(-(armPositionChange / 10));
+        }
     }
+
 
     public void lockArm()
     {
@@ -116,6 +115,4 @@ public class Arm extends Part {
         arm.setPower(0.5);
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
-
-
 }
