@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Gripper extends Part{
-    private Servo gripper = null;
+    public Servo gripper = null;
     public HardwareMap hardwareMap;
 
     @Override
@@ -23,11 +23,11 @@ public class Gripper extends Part{
 
     public void gripperMovementGamepad(Gamepad gamepad1)
     {
-        if (gamepad1.left_bumper || gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
             double gripperOpenPosition = 0;
             gripper.setPosition(gripperOpenPosition);
         }
-        else {
+        else if(gamepad1.right_bumper) {
             double gripperClosedPosition = 1.0;
             gripper.setPosition(gripperClosedPosition);
         }

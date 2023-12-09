@@ -72,6 +72,8 @@ public class MainWobotRewrite extends LinearOpMode {
         returnString += "dpad_down " + gamepad1.dpad_down + "\n";
         returnString += "dpad_left " + gamepad1.dpad_left + "\n";
         returnString += "dpad_right " + gamepad1.dpad_right + "\n";
+        returnString += "arm mode " + arm.arm.getMode();
+        returnString += "gripper pos" + gripper.gripper.getPosition();
 
         returnString += "a " + gamepad1.a + "\n";
         returnString += "b " + gamepad1.b + "\n";

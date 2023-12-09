@@ -61,7 +61,7 @@ public class Arm extends Part {
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
-    public void armTriggersGamepad(Gamepad gamepad1)
+    /*public void armTriggersGamepad(Gamepad gamepad1)
     {
         boolean ignoreBraking = false;
         double manualArmPower;
@@ -94,6 +94,38 @@ public class Arm extends Part {
         {
             arm.setPower(-(armPositionChange / 10));
         }
+    }*/
+
+    public void armTriggersGamepad(Gamepad gamepad1)
+    {
+        double manualArmDeadband = 0.1;
+        boolean didSetPosition = false;
+        int positionMax = -30;
+        int positionMin = -540;
+        //boolean isPositionNegative = false;
+        //arm.setTargetPosition(arm.getTargetPosition());
+        //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {
+            if(gamepad1.left_trigger > manualArmDeadband) {
+                arm.setTargetPosition(arm.getTargetPosition() + 4);
+                didSetPosition = true;
+            }
+            if (gamepad1.right_trigger > manualArmDeadband) {
+                arm.setTargetPosition(arm.getTargetPosition() - 4);
+                didSetPosition = true;
+            }
+        //}
+        if(arm.getTargetPosition() > positionMax)
+        {
+            arm.setTargetPosition(positionMax);
+            didSetPosition = true;
+        }
+        if(arm.getTargetPosition() < positionMin)
+        {
+            arm.setTargetPosition(positionMin);
+            didSetPosition = true;
+        }
+        if(didSetPosition) arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(1.6);
     }
 
 
