@@ -1,28 +1,18 @@
 package org.firstinspires.ftc.teamcode.teamcode.Parts;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 
 public class Arm extends Part {
     private final int armHomePosition = 20;
 
     public String debugString = "";
-    private boolean manualMode = false;
     public DcMotorEx arm = null;
     public HardwareMap hardwareMap;
 
-    //SET DURING RUNTIME
-    double armLastTickPower = 0;
     double armLastTickPosition = 0;
-    boolean isBraking;
 
     @Override
     public void init()
