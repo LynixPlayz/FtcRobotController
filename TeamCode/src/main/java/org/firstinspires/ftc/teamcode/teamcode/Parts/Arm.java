@@ -91,7 +91,7 @@ public class Arm extends Part {
         double manualArmDeadband = 0.1;
         boolean didSetPosition = false;
         int positionMax = -30;
-        int positionMin = -540;
+        int positionMin = -650;
         //boolean isPositionNegative = false;
         //arm.setTargetPosition(arm.getTargetPosition());
         //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {

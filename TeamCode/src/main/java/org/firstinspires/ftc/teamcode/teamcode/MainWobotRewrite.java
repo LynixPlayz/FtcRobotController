@@ -123,7 +123,7 @@ public class MainWobotRewrite extends LinearOpMode {
         {
             //arm.lockArm();
             testRunCount++;
-            movement.driveStraight(1, 10, 90);
+            //move movement.driveStraight(1, 10, 90);
         }
     }
 
