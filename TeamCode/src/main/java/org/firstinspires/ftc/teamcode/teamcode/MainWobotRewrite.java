@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.teamcode.Autonomous.AutoPIDForward;
-import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Arm;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Gripper;
 import org.firstinspires.ftc.teamcode.teamcode.Parts.Movement;
@@ -17,7 +15,6 @@ public class MainWobotRewrite extends LinearOpMode {
     Arm arm = new Arm();
     Gripper gripper = new Gripper();
     Wrist wrist = new Wrist();
-    AutoPIDForward apf = new AutoPIDForward();
 
     int testRunCount = 0;
 
@@ -123,7 +120,6 @@ public class MainWobotRewrite extends LinearOpMode {
         {
             //arm.lockArm();
             testRunCount++;
-            //move movement.driveStraight(1, 10, 90);
         }
     }
 

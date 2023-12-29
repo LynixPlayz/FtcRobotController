@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.teamcode.Autonomous.MoveDirection;
 import org.firstinspires.ftc.teamcode.teamcode.MainWobotRewrite;
 
 public class Movement extends Part {
@@ -256,26 +255,6 @@ public class Movement extends Part {
         backRight.setPower(backRightPower);
     }
 
-    public void move(MoveDirection direction, int inches, double speed)
-    {
-        if(direction == MoveDirection.FORWARD)
-        {
-            frontLeft.setTargetPosition((int) ((inches * COUNTS_PER_CM) / 4) * -1);
-            frontRight.setTargetPosition((int) ((inches * COUNTS_PER_CM) / 4));
-            backLeft.setTargetPosition((int) ((inches * COUNTS_PER_CM) / 4));
-            backRight.setTargetPosition((int) ((inches * COUNTS_PER_CM) / 4) * -1);
-
-            frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            frontLeft.setPower(speed);
-            frontRight.setPower(speed);
-            backLeft.setPower(speed);
-            backRight.setPower(speed);
-        }
-    }
 
     public void debugDpad(Gamepad gamepad1)
     {
