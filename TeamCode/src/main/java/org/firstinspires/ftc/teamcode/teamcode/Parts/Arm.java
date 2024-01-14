@@ -13,6 +13,7 @@ public class Arm extends Part {
     public HardwareMap hardwareMap;
 
     double armLastTickPosition = 0;
+    public boolean armBypass = false;
 
     @Override
     public void init()
@@ -25,6 +26,7 @@ public class Arm extends Part {
         arm.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         arm.setPower(0.0);
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setTargetPosition(0);
     }
 
     @Override
@@ -90,32 +92,32 @@ public class Arm extends Part {
     {
         double manualArmDeadband = 0.1;
         boolean didSetPosition = false;
-        int positionMax = -30;
-        int positionMin = -650;
+        int positionMax = 600;
+        int positionMin = -30;
         //boolean isPositionNegative = false;
         //arm.setTargetPosition(arm.getTargetPosition());
         //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {
             if(gamepad1.left_trigger > manualArmDeadband) {
-                arm.setTargetPosition(arm.getTargetPosition() + 4);
+                arm.setTargetPosition(arm.getTargetPosition() + 18);
                 didSetPosition = true;
             }
             if (gamepad1.right_trigger > manualArmDeadband) {
-                arm.setTargetPosition(arm.getTargetPosition() - 4);
+                arm.setTargetPosition(arm.getTargetPosition() - 18);
                 didSetPosition = true;
             }
         //}
-        if(arm.getTargetPosition() > positionMax)
-        {
-            arm.setTargetPosition(positionMax);
-            didSetPosition = true;
-        }
-        if(arm.getTargetPosition() < positionMin)
-        {
-            arm.setTargetPosition(positionMin);
-            didSetPosition = true;
+        if(!armBypass) {
+            if (arm.getTargetPosition() > positionMax) {
+                arm.setTargetPosition(positionMax);
+                didSetPosition = true;
+            }
+            if (arm.getTargetPosition() < positionMin) {
+                arm.setTargetPosition(positionMin);
+                didSetPosition = true;
+            }
         }
         if(didSetPosition) arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(1.6);
+        arm.setPower(0.6);
     }
 
 
@@ -131,7 +133,7 @@ public class Arm extends Part {
 
     public void scoringPosition()
     {
-        int armScorePosition = -600;
+        int armScorePosition = 600;
 
         arm.setTargetPosition(armScorePosition);
         arm.setPower(0.5);

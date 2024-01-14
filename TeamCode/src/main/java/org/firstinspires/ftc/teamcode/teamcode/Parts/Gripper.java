@@ -24,12 +24,12 @@ public class Gripper extends Part{
     public void gripperMovementGamepad(Gamepad gamepad1)
     {
         if (gamepad1.left_bumper) {
-            double gripperOpenPosition = 0;
-            gripper.setPosition(gripperOpenPosition);
+            double gripperOpenPosition = 0.01;
+            gripper.setPosition(gripper.getPosition() - gripperOpenPosition);
         }
         else if(gamepad1.right_bumper) {
-            double gripperClosedPosition = 1.0;
-            gripper.setPosition(gripperClosedPosition);
+            double gripperClosedPosition = 0.01;
+            gripper.setPosition(gripper.getPosition() + gripperClosedPosition);
         }
     }
 }

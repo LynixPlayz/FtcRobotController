@@ -55,8 +55,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(4, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
 
     public static double LATERAL_MULTIPLIER = -(-46.73 - 46.77 - 47.45) / (43.5 + 43 + 43.5);
 
@@ -100,10 +100,10 @@ public class SampleMecanumDrive extends MecanumDrive {
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftDriveFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftDriveBack");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightDriveBack");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightDriveFront");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftDriveFront");
+        leftRear = hardwareMap.get(DcMotorEx.class, "leftDriveBack");
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (DcMotorEx motor : motors) {

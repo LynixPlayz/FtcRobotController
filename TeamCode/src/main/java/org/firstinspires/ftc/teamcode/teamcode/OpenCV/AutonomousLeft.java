@@ -7,16 +7,14 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.teamcode.Autonomous.Calbration;
-import org.firstinspires.ftc.teamcode.teamcode.OpenCV.TeamElementSubsystem;
-import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(group = "StateTest")
-    public class Autonomous extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(group = "StateTest")
+    public class AutonomousLeft extends LinearOpMode {
 
     static final String SPIKE_CENTER = "center";
     static final String SPIKE_LEFT = "left";
@@ -140,16 +138,13 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .forward(5)
-                .splineTo(new Vector2d(5, -2), 0)
-                .splineTo(new Vector2d(2, -2), 0)
+                .splineTo(new Vector2d(5, 2), 0)
+                .splineTo(new Vector2d(25, 2), 0)
                 .build();
         Trajectory trajNormal = drive.trajectoryBuilder(new Pose2d())
                 .forward(5)
-                .splineTo(new Vector2d(5, -2), 0)
-                .splineTo(new Vector2d(27, -2), 0)
-                .build();
-        Trajectory trajMoveBack = drive.trajectoryBuilder(trajNormal.end().plus(new Pose2d(0, 03.5, Math.toRadians(-83))), false)
-                .back(2)
+                .splineTo(new Vector2d(5, 2), 0)
+                .splineTo(new Vector2d(23.5, 2), 0)
                 .build();
 
 
@@ -159,16 +154,12 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
         if(isStopRequested()) return;
 
         gripper.setPosition(0.0);
-        sleep(750);
         wrist.setPosition(1);
         sleep(750);
         if(spike.equals(SPIKE_CENTER))drive.followTrajectory(traj);
         else {drive.followTrajectory(trajNormal);}
-        if(spike.equals(SPIKE_LEFT))drive.turn(Math.toRadians(83));
-        if(spike.equals(SPIKE_RIGHT)) {
-            drive.turn(Math.toRadians(-83));
-            drive.followTrajectory(trajMoveBack);
-        }
+        if(spike.equals(SPIKE_LEFT))drive.turn(Math.toRadians(90));
+        if(spike.equals(SPIKE_RIGHT))drive.turn(Math.toRadians(-90));
         if(spike.equals(SPIKE_CENTER))
         {
             drive.turn(Math.toRadians(-12));
