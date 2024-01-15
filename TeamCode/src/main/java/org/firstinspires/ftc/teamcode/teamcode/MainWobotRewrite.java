@@ -164,7 +164,6 @@ public class MainWobotRewrite extends LinearOpMode {
             } else {
                 telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             }
-            telemetry.update();
 
             // Apply desired axes motions to the drivetrain.
             //moveRobot(drive, strafe, turn);

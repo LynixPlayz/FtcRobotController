@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.teamcode.Parts;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+@Config
 public class Arm extends Part {
+    public static double kF = 0.4;
+
     private final int armHomePosition = 20;
 
     public String debugString = "";
@@ -90,19 +94,19 @@ public class Arm extends Part {
 
     public void armTriggersGamepad(Gamepad gamepad1)
     {
-        double manualArmDeadband = 0.1;
+        double manualArmDeadband = 0;
         boolean didSetPosition = false;
         int positionMax = 600;
         int positionMin = -30;
         //boolean isPositionNegative = false;
         //arm.setTargetPosition(arm.getTargetPosition());
         //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {
-            if(gamepad1.left_trigger > manualArmDeadband) {
-                arm.setTargetPosition(arm.getTargetPosition() + 18);
-                didSetPosition = true;
-            }
-            if (gamepad1.right_trigger > manualArmDeadband) {
-                arm.setTargetPosition(arm.getTargetPosition() - 18);
+            if(gamepad1.left_trigger > manualArmDeadband || gamepad1.right_trigger > manualArmDeadband && (arm.getCurrentPosition() < positionMax && arm.getCurrentPosition() > positionMin)) {
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                arm.setPower((gamepad1.left_trigger - gamepad1.right_trigger) * 0.3 + Math.sin(Math.toRadians((double) (arm.getCurrentPosition() + 130) / (29 / 9))) * kF);
+                return;
+            } else if (arm.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
+                arm.setTargetPosition(arm.getCurrentPosition());
                 didSetPosition = true;
             }
         //}
