@@ -140,8 +140,8 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .forward(5)
-                .splineTo(new Vector2d(5, -2), 0)
-                .splineTo(new Vector2d(2, -2), 0)
+                .splineTo(new Vector2d(3.5, 0), 0)
+                .splineTo(new Vector2d(24, -2), 0)
                 .build();
         Trajectory trajNormal = drive.trajectoryBuilder(new Pose2d())
                 .forward(5)
@@ -150,6 +150,26 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
                 .build();
         Trajectory trajMoveBack = drive.trajectoryBuilder(trajNormal.end().plus(new Pose2d(0, 03.5, Math.toRadians(-83))), false)
                 .back(2)
+                .build();
+        Trajectory trajMoveBack2 = drive.trajectoryBuilder(trajNormal.end().plus(new Pose2d(-2, 03.5, 0)), false)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(16, 5)), 0)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(16, 30)), 0)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(12, 30)), 0)
+                .build();
+        Trajectory trajMoveBack2Center = drive.trajectoryBuilder(traj.end().plus(new Pose2d(-2, 03.5, 0)), false)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(16, 5)), 0)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(16, 30)), 0)
+                .splineTo(trajNormal.end().vec().minus(new Vector2d(12, 30)), 0)
+                .build();
+        Trajectory trajMoveBack2Blue = drive.trajectoryBuilder(trajNormal.end().plus(new Pose2d(-2, 03.5, 0)), false)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(-16, 5)), 0)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(-16, 30)), 0)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(12, 30)), 0)
+                .build();
+        Trajectory trajMoveBack2CenterBlue = drive.trajectoryBuilder(traj.end().plus(new Pose2d(-2, 03.5, 0)), false)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(-16, 5)), 0)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(-16, 30)), 0)
+                .splineTo(trajNormal.end().vec().plus(new Vector2d(12, 30)), 0)
                 .build();
 
 
@@ -160,7 +180,7 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 
         gripper.setPosition(0.0);
         sleep(750);
-        wrist.setPosition(1);
+        //wrist.setPosition(1);
         sleep(750);
         if(spike.equals(SPIKE_CENTER))drive.followTrajectory(traj);
         else {drive.followTrajectory(trajNormal);}
@@ -178,6 +198,40 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
         gripper.setPosition(0.5);
         sleep(500);
         wrist.setPosition(1);
+        if(side.equals(SIDE_CLOSE) && alliance.equals(ALLIANCE_RED)) {
+            sleep(1000);
+            if (spike.equals(SPIKE_LEFT)) {
+                drive.turn(Math.toRadians(-83));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2);
+            }
+            if (spike.equals(SPIKE_RIGHT)) {
+                drive.turn(Math.toRadians(83));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2);
+            }
+            if (spike.equals(SPIKE_CENTER)) {
+                drive.turn(Math.toRadians(12));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2Center);
+            }
+        } else if (side.equals(SIDE_CLOSE) && alliance.equals(ALLIANCE_BLUE)) {
+            if (spike.equals(SPIKE_LEFT)) {
+                drive.turn(Math.toRadians(-83));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2Blue);
+            }
+            if (spike.equals(SPIKE_RIGHT)) {
+                drive.turn(Math.toRadians(83));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2Blue);
+            }
+            if (spike.equals(SPIKE_CENTER)) {
+                drive.turn(Math.toRadians(12));
+                sleep(500);
+                drive.followTrajectory(trajMoveBack2CenterBlue);
+            }
+        }
         androidSoundPool.close();
 
         while(opModeIsActive())

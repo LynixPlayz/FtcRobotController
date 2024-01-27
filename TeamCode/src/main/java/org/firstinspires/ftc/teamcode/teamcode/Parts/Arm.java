@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 public class Arm extends Part {
-    public static double kF = 0.4;
+    public static double kF = 0.09;
 
     private final int armHomePosition = 20;
 
@@ -96,12 +96,12 @@ public class Arm extends Part {
     {
         double manualArmDeadband = 0;
         boolean didSetPosition = false;
-        int positionMax = 600;
+        int positionMax = 1200;
         int positionMin = -30;
         //boolean isPositionNegative = false;
         //arm.setTargetPosition(arm.getTargetPosition());
         //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {
-            if(gamepad1.left_trigger > manualArmDeadband || gamepad1.right_trigger > manualArmDeadband && (arm.getCurrentPosition() < positionMax && arm.getCurrentPosition() > positionMin)) {
+            if(gamepad1.left_trigger > manualArmDeadband && (arm.getCurrentPosition() < positionMax - 5) || gamepad1.right_trigger > manualArmDeadband && (arm.getCurrentPosition() > positionMin + 5)) {
                 arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 arm.setPower((gamepad1.left_trigger - gamepad1.right_trigger) * 0.3 + Math.sin(Math.toRadians((double) (arm.getCurrentPosition() + 130) / (29 / 9))) * kF);
                 return;

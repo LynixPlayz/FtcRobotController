@@ -14,6 +14,7 @@ public class Gripper extends Part{
     @Override
     public void init() {
         gripper = hardwareMap.get(Servo.class, "gripper");
+        gripper.scaleRange(0.37, 0.51);
     }
 
     @Override
@@ -24,11 +25,11 @@ public class Gripper extends Part{
     public void gripperMovementGamepad(Gamepad gamepad1)
     {
         if (gamepad1.left_bumper) {
-            double gripperOpenPosition = 0.01;
+            double gripperOpenPosition = 0.1;
             gripper.setPosition(gripper.getPosition() - gripperOpenPosition);
         }
         else if(gamepad1.right_bumper) {
-            double gripperClosedPosition = 0.01;
+            double gripperClosedPosition = 0.1;
             gripper.setPosition(gripper.getPosition() + gripperClosedPosition);
         }
     }
