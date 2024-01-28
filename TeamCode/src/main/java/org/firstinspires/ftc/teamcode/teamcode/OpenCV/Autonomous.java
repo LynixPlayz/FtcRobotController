@@ -78,7 +78,6 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         frontLeft = hardwareMap.get(DcMotor.class, "leftDriveFront");
         frontRight = hardwareMap.get(DcMotor.class, "rightDriveFront");
         backLeft = hardwareMap.get(DcMotor.class, "leftDriveBack");
@@ -97,27 +96,6 @@ import org.firstinspires.ftc.robotcore.external.android.AndroidSoundPool;
         String side = selectedArray[2];
 
         double startY = 0, startX = 0, startH = 0;
-
-        if (side.equals(SIDE_FAR) && alliance.equals(ALLIANCE_RED)) {
-            startX = -35;
-            startY = -64;
-        } else if (side.equals(SIDE_CLOSE) && alliance.equals(ALLIANCE_RED)) {
-            startX = 12;
-            startY = -64;
-        } else if (side.equals(SIDE_FAR) && alliance.equals(ALLIANCE_BLUE)) {
-            startX = -35;
-            startY = 64;
-        } else if (side.equals(SIDE_CLOSE) && alliance.equals(ALLIANCE_BLUE)) {
-            startX = 12;
-            startY = 64;
-        }
-
-        if (alliance.equals(ALLIANCE_RED)) {
-            startH = 180;
-        } else {
-            startH = 0;
-        }
-
 
         double sideOffset = 0;
         double specialSpikeOffset = 0;

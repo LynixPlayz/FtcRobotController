@@ -81,8 +81,6 @@ public class MainWobotRewrite extends LinearOpMode {
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
-        initAprilTag();
-
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
         imu.resetYaw();

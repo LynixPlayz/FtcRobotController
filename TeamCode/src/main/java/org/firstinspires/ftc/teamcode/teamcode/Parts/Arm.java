@@ -98,18 +98,14 @@ public class Arm extends Part {
         boolean didSetPosition = false;
         int positionMax = 1200;
         int positionMin = -30;
-        //boolean isPositionNegative = false;
-        //arm.setTargetPosition(arm.getTargetPosition());
-        //if (arm.getCurrentPosition() > arm.getTargetPosition() - 1.5 && arm.getCurrentPosition() < arm.getTargetPosition() + 1.5) {
-            if(gamepad1.left_trigger > manualArmDeadband && (arm.getCurrentPosition() < positionMax - 5) || gamepad1.right_trigger > manualArmDeadband && (arm.getCurrentPosition() > positionMin + 5)) {
-                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                arm.setPower((gamepad1.left_trigger - gamepad1.right_trigger) * 0.3 + Math.sin(Math.toRadians((double) (arm.getCurrentPosition() + 130) / (29 / 9))) * kF);
-                return;
-            } else if (arm.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
-                arm.setTargetPosition(arm.getCurrentPosition());
-                didSetPosition = true;
-            }
-        //}
+        if(gamepad1.left_trigger > manualArmDeadband && (arm.getCurrentPosition() < positionMax - 5) || gamepad1.right_trigger > manualArmDeadband && (arm.getCurrentPosition() > positionMin + 5)) {
+            arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            arm.setPower((gamepad1.left_trigger - gamepad1.right_trigger) * 0.3 + Math.sin(Math.toRadians((double) (arm.getCurrentPosition() + 130) / (29 / 9))) * kF);
+            return;
+        } else if (arm.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
+            arm.setTargetPosition(arm.getCurrentPosition());
+            didSetPosition = true;
+        }
         if(!armBypass) {
             if (arm.getTargetPosition() > positionMax) {
                 arm.setTargetPosition(positionMax);
